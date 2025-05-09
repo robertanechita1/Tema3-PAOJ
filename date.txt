@@ -1,0 +1,3 @@
+Andrei Popescu;35;Bucuresti
+Maria Ionescu;28;Cluj
+Vlad Enache;42;Brasov

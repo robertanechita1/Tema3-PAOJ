@@ -1,0 +1,8 @@
+Persoane peste 30 ani din orase care incep cu 'B' si sortate:
+Andrei Popescu;35;Bucuresti
+Vlad Enache;42;Brasov
+
+Media varstei per oras:
+Bucuresti - 35.00
+Brasov - 42.00
+Cluj - 28.00
