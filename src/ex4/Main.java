@@ -23,14 +23,9 @@ public class Main {
             return;
         }
 
-        // filtrare: persoane peste 30 ani din orașe care încep cu "B"
+        // filtrare: persoane peste 30 ani din orase care incep cu b
         List<Persoana> filtrate = persoane.stream()
                 .filter(p -> p.getVarsta() > 30 && p.getOras().startsWith("B")).toList();
-
-        // sortare: dupa nume si apoi dupa varsta
-        List<Persoana> sortate = filtrate.stream()
-                .sorted(Comparator.comparing(Persoana::getNume)
-                        .thenComparing(Persoana::getVarsta)).toList();
 
         // grupare dupa oras
         Map<String, List<Persoana>> grupateDupaOras = persoane.stream()
@@ -43,6 +38,11 @@ public class Main {
                         Collectors.averagingInt(Persoana::getVarsta)
                 ));
 
+        // sortare: dupa nume si apoi dupa varsta
+        List<Persoana> sortate = persoane.stream()
+                .sorted(Comparator.comparing(Persoana::getNume)
+                        .thenComparing(Persoana::getVarsta)).toList();
+
         // persoana cu varsta maxima
         Optional<Persoana> maxVarsta = persoane.stream()
                 .max(Comparator.comparingInt(Persoana::getVarsta));
@@ -50,19 +50,23 @@ public class Main {
 
         try (PrintWriter writer = new PrintWriter("rezultat.txt")) {
 
-            writer.println("Persoane peste 30 ani din orase care incep cu 'B' si sortate:");
+            writer.println("Persoane peste 30 ani din orase care incep cu 'B':");
+            filtrate.forEach(writer::println);
+
+            writer.println("Persoane sortate:");
             sortate.forEach(writer::println);
 
-            writer.println("\nMedia varstei per oras:");
-            mediaVarstaPerOras.forEach((oras, medie) ->
-                    writer.println(oras + " - " + String.format("%.2f", medie))
-            );
-
+            writer.println("\nGruparea persoanelor pe orase si media de varsta:");
+            grupateDupaOras.forEach((oras, lista) -> {
+                writer.println(oras + " - Media varsta: " +
+                        String.format("%.2f", mediaVarstaPerOras.get(oras)));
+                lista.forEach(p -> writer.println("    - " + p));
+            });
+            maxVarsta.ifPresent(p -> writer.println("\nPersoana cu varsta maxima: " + p));
         }
         catch (IOException e) {
             System.err.println("Eroare la scriere: " + e.getMessage());
         }
 
-        maxVarsta.ifPresent(p -> System.out.println("Persoana cu varsta maxima: " + p));
     }
 }

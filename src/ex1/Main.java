@@ -23,10 +23,12 @@ public class Main {
                 catch (InvalidDataException e) {
                     try (PrintWriter pw = new PrintWriter(new FileWriter(fisierErori, true))) {
                         pw.println("Eroare la produs " + i + ": " + e.getMessage());
-                    } catch (IOException ex) {
+                    }
+                    catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             });
@@ -47,7 +49,7 @@ public class Main {
                     break;
                 }
                 catch (ClassNotFoundException e) {
-                    System.out.println("Clasa necunoscută: " + e.getMessage());
+                    System.out.println("Clasa necunoscuta: " + e.getMessage());
                 }
             }
         }

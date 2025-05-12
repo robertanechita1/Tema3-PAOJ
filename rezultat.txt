@@ -1,8 +1,17 @@
-Persoane peste 30 ani din orase care incep cu 'B' si sortate:
-Andrei Popescu;35;Bucuresti
-Vlad Enache;42;Brasov
+Persoane peste 30 ani din orase care incep cu 'B':
+Andrei Popescu cu varsta de 35 ani din Bucuresti
+Vlad Enache cu varsta de 42 ani din Brasov
+Persoane sortate:
+Andrei Popescu cu varsta de 35 ani din Bucuresti
+Maria Ionescu cu varsta de 28 ani din Cluj
+Vlad Enache cu varsta de 42 ani din Brasov
 
-Media varstei per oras:
-Bucuresti - 35.00
-Brasov - 42.00
-Cluj - 28.00
+Gruparea persoanelor pe orase si media de varsta:
+Bucuresti - Media varsta: 35.00
+    - Andrei Popescu cu varsta de 35 ani din Bucuresti
+Brasov - Media varsta: 42.00
+    - Vlad Enache cu varsta de 42 ani din Brasov
+Cluj - Media varsta: 28.00
+    - Maria Ionescu cu varsta de 28 ani din Cluj
+
+Persoana cu varsta maxima: Vlad Enache cu varsta de 42 ani din Brasov

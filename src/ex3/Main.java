@@ -29,7 +29,6 @@ public class Main {
                 .orElse(0.0);
 
         double media = mediaSume.get();
-        System.out.println("Media sumelor: " + media + "\n");
 
         //predicate pt clienti vip cu suma > media
         Predicate<Client> esteVipSiPesteMedia = c ->
@@ -67,7 +66,7 @@ public class Main {
         System.out.println("\nNumar clienti pe tip:");
         grupare.forEach((tip, count) -> System.out.println(tip + ": " + count));
 
-        // nume clienți < 25 ani într-un singur String
+        // nume clieti < 25 ani intr-un singur String
         String tineri = clienti.stream()
                 .filter(c -> c.getVarsta() < 25)
                 .map(Client::getNume)

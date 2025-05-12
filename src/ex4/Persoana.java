@@ -25,6 +25,6 @@ public class Persoana {
 
     @Override
     public String toString() {
-        return nume + ";" + varsta + ";" + oras;
+        return nume + " cu varsta de " + varsta + " ani din " + oras;
     }
 }

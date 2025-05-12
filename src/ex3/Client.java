@@ -33,6 +33,6 @@ public class Client {
 
     @Override
     public String toString() {
-        return nume + " - " + varsta + " ani";
+        return nume + " cu varsta de " + varsta + " ani";
     }
 }

@@ -3,14 +3,15 @@ package ex2;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
         File file = new File("comenzi.dat");
 
-        // scrierea comenzilor
+        // scrierea comenzilor in fisier
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-            java.util.stream.IntStream.rangeClosed(1, 15)
+            IntStream.rangeClosed(1, 15)
                     .mapToObj(i -> new Comanda(i, "Client" + (i % 5), 1000 * i, false))
                     .forEach(c -> {
                         try {
@@ -26,35 +27,40 @@ public class Main {
         }
 
 
-        // actualizarea comenzilor cu valoare > 5000
+        // actualizarea statusului cu RandomAccessFile
         List<Comanda> actualizate = new ArrayList<>();
-        try (RandomAccessFile raf = new RandomAccessFile(file, "rw")) {
-            while (true) {
-                long pozitie = raf.getFilePointer();
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                    actualizate.clear();
-                    while (true) {
-                        Comanda c = (Comanda) ois.readObject();
-                        if (c.getValoare() > 5000) {
-                            c.setFinalizata(true);
-                        }
-                        actualizate.add(c);
+
+        try (RandomAccessFile raf = new RandomAccessFile("comenzi.dat", "rw")) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("comenzi.dat"))) {
+                while (true) {
+                    Comanda c = (Comanda) ois.readObject();
+                    if (c.getValoare() > 5000) {
+                        c.setFinalizata(true);
                     }
-                }
-                catch (EOFException ignored) {
-                    break;
-                }
-                catch (Exception e) {
-                    System.err.println("Eroare la citire pt actualizare: " + e.getMessage());
-                    break;
+                    actualizate.add(c);
                 }
             }
+            catch (EOFException e) {
+                // final de file, ignor
+            }
+            catch (Exception e) {
+                System.err.println("Eroare la citire: " + e.getMessage());
+            }
+
+            // suprascriere
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("comenzi.dat"))) {
+                for (Comanda c : actualizate) {
+                    oos.writeObject(c);
+                }
+            }
+
         }
         catch (IOException | SecurityException e) {
             System.err.println("Eroare la RandomAccessFile: " + e.getMessage());
         }
 
-        // recitirea comenzilor
+
+        // recitire comenzi
         List<Comanda> comenzi = new ArrayList<>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             while (true) {
@@ -74,17 +80,23 @@ public class Main {
             System.err.println("Eroare la recitire: " + e.getMessage());
         }
 
-        List<Comanda> finalizate = comenzi.stream().filter(Comanda::isFinalizata).toList();
+        // filtrare finalizate, total finalizate, grupate per client
+        List<Comanda> finalizate = comenzi.stream()
+                .filter(Comanda::isFinalizata)
+                .toList();
 
-        double totalFinalizate = finalizate.stream().mapToDouble(Comanda::getValoare).sum();
+        double total = finalizate.stream()
+                .mapToDouble(Comanda::getValoare)
+                .sum();
 
         System.out.println("Comenzi finalizate:");
         finalizate.forEach(System.out::println);
 
-        System.out.println("\nTotal valoare comenzi finalizate: " + totalFinalizate);
+        System.out.println("\nTotal comenzi finalizate: " + total);
 
-        System.out.println("\nComenzile fiecarui client:");
-        finalizate.stream().collect(Collectors.groupingBy(Comanda::getNumeClient,Collectors.toList()))
+        System.out.println("\nComenzi grupate pe client:");
+        finalizate.stream()
+                .collect(Collectors.groupingBy(Comanda::getNumeClient))
                 .forEach((client, lista) -> {
                     System.out.println(client + ":");
                     lista.forEach(System.out::println);

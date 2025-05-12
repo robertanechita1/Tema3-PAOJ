@@ -34,6 +34,6 @@ public class Produs implements Serializable {
 
     @Override
     public String toString() {
-        return nume + " - " + pret + " lei, " + stoc + " bucati.\n";
+        return nume + " : " + pret + " lei, " + stoc + " bucati.\n";
     }
 }

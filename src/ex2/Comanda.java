@@ -38,7 +38,7 @@ public class Comanda implements Serializable {
     @Override
     public String toString() {
         return "Comanda cu id-ul " + id +
-                ", client='" + numeClient + '\'' +
+                ", client ='" + numeClient + '\'' +
                 ", in valoare de " + valoare +
                 ", finalizata = " + finalizata;
     }
